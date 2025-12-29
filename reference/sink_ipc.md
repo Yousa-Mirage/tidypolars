@@ -161,7 +161,7 @@ my_lf <- as_polars_lf(mtcars)
 out_path <- withr::local_tempdir()
 sink_ipc(my_lf, partition_by_key(out_path, by = c("am", "cyl")), mkdir = TRUE)
 fs::dir_tree(out_path)
-#> /tmp/Rtmp2LK702/file1b07de640bc
+#> /tmp/Rtmp1WwbTD/file1b6e3917a287
 #> ├── am=0.0
 #> │   ├── cyl=4.0
 #> │   │   └── 0.ipc
@@ -181,7 +181,7 @@ fs::dir_tree(out_path)
 out_path <- withr::local_tempdir()
 sink_ipc(my_lf, partition_by_max_size(out_path, max_size = 5), mkdir = TRUE)
 fs::dir_tree(out_path) # mtcars has 32 rows so we have 7 output files
-#> /tmp/Rtmp2LK702/file1b0772567bf7
+#> /tmp/Rtmp1WwbTD/file1b6e264a5fa5
 #> ├── 00000000.ipc
 #> ├── 00000001.ipc
 #> ├── 00000002.ipc
