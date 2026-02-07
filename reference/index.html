@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tidypolars</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.16.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -220,10 +220,10 @@
 
         <dt>
 
-          <code><a href="filter.polars_data_frame.html">filter(<i>&lt;polars_data_frame&gt;</i>)</a></code> <code><a href="filter.polars_data_frame.html">filter(<i>&lt;polars_lazy_frame&gt;</i>)</a></code>
+          <code><a href="filter.polars_data_frame.html">filter(<i>&lt;polars_data_frame&gt;</i>)</a></code> <code><a href="filter.polars_data_frame.html">filter(<i>&lt;polars_lazy_frame&gt;</i>)</a></code> <code><a href="filter.polars_data_frame.html">filter_out(<i>&lt;polars_data_frame&gt;</i>)</a></code> <code><a href="filter.polars_data_frame.html">filter_out(<i>&lt;polars_lazy_frame&gt;</i>)</a></code>
 
         </dt>
-        <dd>Keep rows that match a condition</dd>
+        <dd>Keep or drop rows that match a condition</dd>
 
         <dt>
 
@@ -355,10 +355,10 @@
 
         <dt>
 
-          <code><a href="pivot_wider.polars_data_frame.html">pivot_wider(<i>&lt;polars_data_frame&gt;</i>)</a></code>
+          <code><a href="pivot_wider.polars_data_frame.html">pivot_wider(<i>&lt;polars_data_frame&gt;</i>)</a></code> <code><a href="pivot_wider.polars_data_frame.html">pivot_wider(<i>&lt;polars_lazy_frame&gt;</i>)</a></code>
 
         </dt>
-        <dd>Pivot a DataFrame from long to wide</dd>
+        <dd>Pivot a Data/LazyFrame from long to wide</dd>
 
         <dt>
 
@@ -436,20 +436,6 @@
 
       <dl><dt>
 
-          <code><a href="describe.html">describe()</a></code>
-          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
-        </dt>
-        <dd>Summary statistics for a Polars DataFrame</dd>
-
-        <dt>
-
-          <code><a href="describe_plan.html">describe_plan()</a></code> <code><a href="describe_plan.html">describe_optimized_plan()</a></code>
-          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
-        </dt>
-        <dd>Show the optimized and non-optimized query plans</dd>
-
-        <dt>
-
           <code><a href="fetch.html">fetch()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
@@ -458,16 +444,16 @@
         <dt>
 
           <code><a href="make_unique_id.html">make_unique_id()</a></code>
-
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Create a column with unique id per row values</dd>
 
         <dt>
 
-          <code><a href="partitioned_output.html">partition_by_key()</a></code> <code><a href="partitioned_output.html">partition_by_max_size()</a></code>
+          <code><a href="partitioned_output.html">partition_by()</a></code> <code><a href="partitioned_output.html">partition_by_key()</a></code> <code><a href="partitioned_output.html">partition_by_max_size()</a></code>
           <span class="badge lifecycle lifecycle-experimental">experimental</span>
         </dt>
-        <dd>Helper functions to export a LazyFrame as a partitioned output</dd>
+        <dd>Helper functions to export data as a partitioned output</dd>
       </dl></div><div class="section level2">
       <h2 id="advanced">Advanced<a class="anchor" aria-label="anchor" href="#advanced"></a></h2>
 

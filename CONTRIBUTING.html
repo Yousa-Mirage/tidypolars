@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">tidypolars</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.16.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,7 +104,7 @@
 <span>    <span class="va">out</span></span>
 <span>  <span class="op">}</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>You can notice that the new function must be named as <code>pl_&lt;function_name&gt;_&lt;package_name&gt;</code>. This is because multiple packages can export functions with the same name (for example <code><a href="https://rdatatable.gitlab.io/data.table/reference/between.html" class="external-link">data.table::between()</a></code> and <code><a href="https://dplyr.tidyverse.org/reference/between.html" class="external-link">dplyr::between()</a></code>). Therefore, we want to ensure that our translation is called only if the function comes from a specific package.</p>
+<p>You can notice that the new function must be named as <code>pl_&lt;function_name&gt;_&lt;package_name&gt;</code>. This is because multiple packages can export functions with the same name (for example <code><a href="https://rdrr.io/pkg/data.table/man/between.html" class="external-link">data.table::between()</a></code> and <code><a href="https://dplyr.tidyverse.org/reference/between.html" class="external-link">dplyr::between()</a></code>). Therefore, we want to ensure that our translation is called only if the function comes from a specific package.</p>
 <p>The <code>check_empty_dots(...)</code> is here to grab all additional arguments that <code><a href="https://stringr.tidyverse.org/reference/str_starts.html" class="external-link">stringr::str_ends()</a></code> might have and ignore them because they have no counterparts in <code>polars</code> (it also adds a message warning the user that these arguments are not used).</p>
 <p>Once the package is reloaded, we can use this function in a <code>tidypolars</code> workflow:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -129,7 +129,15 @@
 <p><code>tidypolars</code> uses <a href="https://cran.r-project.org/web/packages/testthat/" class="external-link"><code>testthat</code></a> to check that functions have the expected output. If changes affect the behavior of some functions (for example when adding an extra argument), add some tests in the related file in <code>tests/testthat</code>.</p>
 <p><code>tidyverse</code> functions that apply to an entire dataframe (e.g., <code>drop_na()</code>) have their own test file (<code>test-drop_na.R</code> in this case).</p>
 <p>Functions that apply to one or multiple vectors only (i.e. functions that are used in <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize()</a></code>, etc.) are tested in specific files. If you added a function in <code>R/funs-string.R</code>, then you should add tests in <code>tests/testthat/test-funs_string.R</code> (same for datetime functions, etc.).</p>
-<p>No matter the type of function you added or modified, you should only write tests on Polars DataFrames. Those will be automatically modified when running the tests to run on LazyFrames as well (for instance, the file <code>test-drop_na-lazy.R</code> will be automatically generated).</p>
+<p>A few test rules:</p>
+<ol style="list-style-type: decimal"><li>The test data must be always be i) a <code>tibble</code> named <code>test</code> and ii) a Polars DataFrame named <code>test_pl</code>.</li>
+<li>Always compare the <code>tidypolars</code> and <code>tidyverse</code> code directly, do not compare the <code>tidypolars</code> output to hard-coded values.</li>
+<li>Which <code>expect_*()</code> to use?
+<ul><li>Use <code>expect_equal()</code> if the <code>tidyverse</code> and <code>tidypolars</code> code should give the same output.</li>
+<li>Use <code>expect_both_error()</code> if the <code>tidyverse</code> and <code>tidypolars</code> code should error (ensure that the error is actually due to the tested function and not to a typo for instance).</li>
+<li>Use <code>expect_equal_or_both_error()</code> in property-based testing only since we do not control the input in this case.</li>
+</ul></li>
+</ol><p>No matter the type of function you added or modified, you should only write tests on Polars DataFrames. Those tests will be automatically copied and modified by <code>devtools::test()</code> to run on LazyFrames as well (for instance, the file <code>test-drop_na-lazy.R</code> will be automatically generated).</p>
 </div>
 <div class="section level3">
 <h3 id="pr-title">PR title<a class="anchor" aria-label="anchor" href="#pr-title"></a></h3>

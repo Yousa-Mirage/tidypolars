@@ -2,6 +2,90 @@
 
 ## tidypolars (development version)
 
+### Breaking changes and deprecations
+
+- The following functions (deprecated since 0.10.0, August 2024) are now
+  removed
+  ([\#303](https://github.com/etiennebacher/tidypolars/issues/303)):
+
+  - `describe()`, use [`summary()`](https://rdrr.io/r/base/summary.html)
+    instead.
+  - `describe_plan()` and `describe_optimized_plan()`, use
+    `explain(optimized = TRUE/FALSE)` instead.
+
+- [`make_unique_id()`](https://tidypolars.etiennebacher.com/reference/make_unique_id.md)
+  is deprecated and will be removed in a future version. This is because
+  the underlying Polars function isn’t guaranteed to give the same
+  results across different versions. This function doesn’t have a
+  replacement in `tidypolars`
+  ([\#304](https://github.com/etiennebacher/tidypolars/issues/304)).
+
+### New features
+
+- Added support for
+  [`dplyr::near()`](https://dplyr.tidyverse.org/reference/near.html)
+  ([\#311](https://github.com/etiennebacher/tidypolars/issues/311)).
+
+- [`pivot_wider()`](https://tidyr.tidyverse.org/reference/pivot_wider.html)
+  now works with Polars LazyFrames
+  ([\#318](https://github.com/etiennebacher/tidypolars/issues/318)).
+
+- Added support for several functions implemented in `dplyr` 1.2.0:
+
+  - [`filter_out()`](https://dplyr.tidyverse.org/reference/filter.html)
+    ([\#280](https://github.com/etiennebacher/tidypolars/issues/280))
+  - [`recode_values()`](https://dplyr.tidyverse.org/reference/recode-and-replace-values.html)
+    ([\#308](https://github.com/etiennebacher/tidypolars/issues/308))
+  - [`replace_values()`](https://dplyr.tidyverse.org/reference/recode-and-replace-values.html)
+    ([\#308](https://github.com/etiennebacher/tidypolars/issues/308))
+  - [`replace_when()`](https://dplyr.tidyverse.org/reference/case-and-replace-when.html)
+    ([\#307](https://github.com/etiennebacher/tidypolars/issues/307))
+  - [`when_any()`](https://dplyr.tidyverse.org/reference/when-any-all.html)
+    ([\#306](https://github.com/etiennebacher/tidypolars/issues/306))
+  - [`when_all()`](https://dplyr.tidyverse.org/reference/when-any-all.html)
+    ([\#306](https://github.com/etiennebacher/tidypolars/issues/306))
+
+### Other changes
+
+- Several changes to make `tidypolars` more aligned with the `tidyverse`
+  output in general
+  ([\#316](https://github.com/etiennebacher/tidypolars/issues/316)):
+
+  - in [`count()`](https://dplyr.tidyverse.org/reference/count.html), if
+    `sort = TRUE` and there are some ties, then other variables are
+    sorted in increasing order.
+  - [`coalesce()`](https://dplyr.tidyverse.org/reference/coalesce.html)
+    no longer has a `default` argument. This was an implementation
+    mistake since
+    [`dplyr::coalesce()`](https://dplyr.tidyverse.org/reference/coalesce.html)
+    never had this argument.
+  - [`ungroup()`](https://dplyr.tidyverse.org/reference/group_by.html)
+    used to remove the group-specific attributes in the original grouped
+    data, even if the result of the operation was not assigned. This is
+    fixed.
+  - [`replace_na()`](https://tidyr.tidyverse.org/reference/replace_na.html)
+    on a Polars DataFrame or LazyFrame now errors if `replacement` is
+    not a list.
+  - `slice_*()` functions on grouped data return columns in the same
+    order as in the input.
+  - [`summarize()`](https://dplyr.tidyverse.org/reference/summarise.html)
+    with only `NULL` expressions now returns one row per unique group
+    instead of the entire data.
+  - [`unite()`](https://tidyr.tidyverse.org/reference/unite.html) now
+    returns columns in the correct order, and doesn’t duplicate the
+    `sep` in the output if some values are `NA`.
+
+#### Bug fixes
+
+- [`bind_rows_polars()`](https://tidypolars.etiennebacher.com/reference/bind_rows_polars.md)
+  now uses input names in `.id` if not all inputs are named, for example
+  `bind_rows_polars(x1 = x1, x2, .id = "id")`
+  ([\#317](https://github.com/etiennebacher/tidypolars/issues/317)).
+
+## tidypolars 0.16.0
+
+`tidypolars` requires `polars` \>= 1.8.0.
+
 ### New features
 
 - New function
@@ -58,6 +142,24 @@
   [`?.tp`](https://tidypolars.etiennebacher.com/reference/dot-tp.md)
   ([\#293](https://github.com/etiennebacher/tidypolars/issues/293)).
 
+- New argument `mkdir` in
+  [`write_parquet_polars()`](https://tidypolars.etiennebacher.com/reference/write_parquet_polars.md)
+  (this already existed in
+  [`sink_parquet()`](https://tidypolars.etiennebacher.com/reference/sink_parquet.md)).
+  ([\#298](https://github.com/etiennebacher/tidypolars/issues/298))
+
+- New (experimental) function
+  [`partition_by()`](https://tidypolars.etiennebacher.com/reference/partitioned_output.md)
+  to write partitioned output in `sink_*()` and `write_*_polars()`. The
+  following functions are deprecated and will be removed in a future
+  release
+  ([\#299](https://github.com/etiennebacher/tidypolars/issues/299)):
+
+  - [`partition_by_key()`](https://tidypolars.etiennebacher.com/reference/partitioned_output.md)
+    can be replaced with `partition_by(key =)`
+  - [`partition_by_max_size()`](https://tidypolars.etiennebacher.com/reference/partitioned_output.md)
+    can be replaced with `partition_by(max_rows_per_file =)`
+
 ### Changes
 
 - [`collect()`](https://dplyr.tidyverse.org/reference/compute.html) now
@@ -66,6 +168,12 @@
   [`collect()`](https://dplyr.tidyverse.org/reference/compute.html)
   methods
   ([\#273](https://github.com/etiennebacher/tidypolars/issues/273)).
+
+### Bug fixes
+
+- [`arrange()`](https://dplyr.tidyverse.org/reference/arrange.html) now
+  works with literal values, such as `arrange(x, 1:2)`
+  ([\#296](https://github.com/etiennebacher/tidypolars/issues/296)).
 
 ### Documentation
 
@@ -359,11 +467,9 @@
   ([\#211](https://github.com/etiennebacher/tidypolars/issues/211)).
 
 - `tidypolars` now exports rules to be used with `flir` for detecting
-  deprecated functions
-  [`describe_plan()`](https://tidypolars.etiennebacher.com/reference/describe_plan.md)
-  and
-  [`describe_optimized_plan()`](https://tidypolars.etiennebacher.com/reference/describe_plan.md).
-  Those can be used in your project by following [this
+  deprecated functions `describe_plan()` and
+  `describe_optimized_plan()`. Those can be used in your project by
+  following [this
   article](https://flir.etiennebacher.com/articles/sharing_rules#for-users).
   Note that this requires `flir` 0.5.0.9000 or higher
   ([\#214](https://github.com/etiennebacher/tidypolars/issues/214)).
@@ -504,7 +610,7 @@
 ### Bug fixes
 
 - Using an external object in
-  [`case_when()`](https://dplyr.tidyverse.org/reference/case_when.html),
+  [`case_when()`](https://dplyr.tidyverse.org/reference/case-and-replace-when.html),
   [`ifelse()`](https://rdrr.io/r/base/ifelse.html) and
   [`ifelse()`](https://rdrr.io/r/base/ifelse.html) now works.
 
@@ -541,17 +647,14 @@
 
 ### Breaking changes and deprecations
 
-- [`describe()`](https://tidypolars.etiennebacher.com/reference/describe.md)
-  is deprecated as of tidypolars 0.10.0 and will be removed in a future
-  update. Use [`summary()`](https://rdrr.io/r/base/summary.html) with
-  the same arguments instead
+- `describe()` is deprecated as of tidypolars 0.10.0 and will be removed
+  in a future update. Use
+  [`summary()`](https://rdrr.io/r/base/summary.html) with the same
+  arguments instead
   ([\#127](https://github.com/etiennebacher/tidypolars/issues/127)).
 
-- [`describe_plan()`](https://tidypolars.etiennebacher.com/reference/describe_plan.md)
-  and
-  [`describe_optimized_plan()`](https://tidypolars.etiennebacher.com/reference/describe_plan.md)
-  are deprecated as of tidypolars 0.10.0 and will be removed in a future
-  update. Use
+- `describe_plan()` and `describe_optimized_plan()` are deprecated as of
+  tidypolars 0.10.0 and will be removed in a future update. Use
   [`explain()`](https://dplyr.tidyverse.org/reference/explain.html) with
   `optimized = TRUE/FALSE` instead
   ([\#128](https://github.com/etiennebacher/tidypolars/issues/128)).
@@ -1186,8 +1289,7 @@
 - Rename `pl_fetch()` to
   [`fetch()`](https://tidypolars.etiennebacher.com/reference/fetch.md).
 
-- New functions supported:
-  [`describe()`](https://tidypolars.etiennebacher.com/reference/describe.md),
+- New functions supported: `describe()`,
   [`sink_csv()`](https://tidypolars.etiennebacher.com/reference/sink_csv.md),
   [`slice_sample()`](https://dplyr.tidyverse.org/reference/slice.html).
 

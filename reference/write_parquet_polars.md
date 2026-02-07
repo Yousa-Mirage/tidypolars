@@ -15,7 +15,8 @@ write_parquet_polars(
   row_group_size = NULL,
   data_page_size = NULL,
   partition_by = NULL,
-  partition_chunk_size_bytes = 4294967296
+  partition_chunk_size_bytes = 4294967296,
+  mkdir = FALSE
 )
 ```
 
@@ -87,9 +88,23 @@ write_parquet_polars(
   memory - the size of the output file may differ depending on the file
   format / compression.
 
+- mkdir:
+
+  Recursively create all the directories in the path.
+
 ## Value
 
 The input DataFrame.
+
+## Details
+
+### Partitioned output
+
+It is possible to export data to multiple files based on various
+parameters, such as the values of some variables, or such that each file
+has a maximum number of rows. See
+[`partition_by()`](https://tidypolars.etiennebacher.com/reference/partitioned_output.md)
+for more details.
 
 ## Examples
 

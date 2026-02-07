@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tidypolars</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.16.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,66 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="tidypolars-development-version">tidypolars (development version)<a class="anchor" aria-label="anchor" href="#tidypolars-development-version"></a></h2>
 <div class="section level3">
+<h3 id="breaking-changes-and-deprecations-development-version">Breaking changes and deprecations<a class="anchor" aria-label="anchor" href="#breaking-changes-and-deprecations-development-version"></a></h3>
+<ul><li>
+<p>The following functions (deprecated since 0.10.0, August 2024) are now removed (<a href="https://github.com/etiennebacher/tidypolars/issues/303" class="external-link">#303</a>):</p>
+<ul><li>
+<code>describe()</code>, use <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> instead.</li>
+<li>
+<code>describe_plan()</code> and <code>describe_optimized_plan()</code>, use <code>explain(optimized = TRUE/FALSE)</code> instead.</li>
+</ul></li>
+<li><p><code><a href="../reference/make_unique_id.html">make_unique_id()</a></code> is deprecated and will be removed in a future version. This is because the underlying Polars function isn’t guaranteed to give the same results across different versions. This function doesn’t have a replacement in <code>tidypolars</code> (<a href="https://github.com/etiennebacher/tidypolars/issues/304" class="external-link">#304</a>).</p></li>
+</ul></div>
+<div class="section level3">
 <h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<ul><li><p>Added support for <code><a href="https://dplyr.tidyverse.org/reference/near.html" class="external-link">dplyr::near()</a></code> (<a href="https://github.com/etiennebacher/tidypolars/issues/311" class="external-link">#311</a>).</p></li>
+<li><p><code><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider()</a></code> now works with Polars LazyFrames (<a href="https://github.com/etiennebacher/tidypolars/issues/318" class="external-link">#318</a>).</p></li>
+<li>
+<p>Added support for several functions implemented in <code>dplyr</code> 1.2.0:</p>
+<ul><li>
+<code><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter_out()</a></code> (<a href="https://github.com/etiennebacher/tidypolars/issues/280" class="external-link">#280</a>)</li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/recode-and-replace-values.html" class="external-link">recode_values()</a></code> (<a href="https://github.com/etiennebacher/tidypolars/issues/308" class="external-link">#308</a>)</li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/recode-and-replace-values.html" class="external-link">replace_values()</a></code> (<a href="https://github.com/etiennebacher/tidypolars/issues/308" class="external-link">#308</a>)</li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">replace_when()</a></code> (<a href="https://github.com/etiennebacher/tidypolars/issues/307" class="external-link">#307</a>)</li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/when-any-all.html" class="external-link">when_any()</a></code> (<a href="https://github.com/etiennebacher/tidypolars/issues/306" class="external-link">#306</a>)</li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/when-any-all.html" class="external-link">when_all()</a></code> (<a href="https://github.com/etiennebacher/tidypolars/issues/306" class="external-link">#306</a>)</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="other-changes-development-version">Other changes<a class="anchor" aria-label="anchor" href="#other-changes-development-version"></a></h3>
+<ul><li>
+<p>Several changes to make <code>tidypolars</code> more aligned with the <code>tidyverse</code> output in general (<a href="https://github.com/etiennebacher/tidypolars/issues/316" class="external-link">#316</a>):</p>
+<ul><li>in <code><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count()</a></code>, if <code>sort = TRUE</code> and there are some ties, then other variables are sorted in increasing order.</li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/coalesce.html" class="external-link">coalesce()</a></code> no longer has a <code>default</code> argument. This was an implementation mistake since <code><a href="https://dplyr.tidyverse.org/reference/coalesce.html" class="external-link">dplyr::coalesce()</a></code> never had this argument.</li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup()</a></code> used to remove the group-specific attributes in the original grouped data, even if the result of the operation was not assigned. This is fixed.</li>
+<li>
+<code><a href="https://tidyr.tidyverse.org/reference/replace_na.html" class="external-link">replace_na()</a></code> on a Polars DataFrame or LazyFrame now errors if <code>replacement</code> is not a list.</li>
+<li>
+<code>slice_*()</code> functions on grouped data return columns in the same order as in the input.</li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize()</a></code> with only <code>NULL</code> expressions now returns one row per unique group instead of the entire data.</li>
+<li>
+<code><a href="https://tidyr.tidyverse.org/reference/unite.html" class="external-link">unite()</a></code> now returns columns in the correct order, and doesn’t duplicate the <code>sep</code> in the output if some values are <code>NA</code>.</li>
+</ul></li>
+</ul><div class="section level4">
+<h4 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h4>
+<ul><li>
+<code><a href="../reference/bind_rows_polars.html">bind_rows_polars()</a></code> now uses input names in <code>.id</code> if not all inputs are named, for example <code>bind_rows_polars(x1 = x1, x2, .id = "id")</code> (<a href="https://github.com/etiennebacher/tidypolars/issues/317" class="external-link">#317</a>).</li>
+</ul></div>
+</div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.16.0" id="tidypolars-0160">tidypolars 0.16.0<a class="anchor" aria-label="anchor" href="#tidypolars-0160"></a></h2>
+<p><code>tidypolars</code> requires <code>polars</code> &gt;= 1.8.0.</p>
+<div class="section level3">
+<h3 id="new-features-0-16-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-16-0"></a></h3>
 <ul><li><p>New function <code><a href="../reference/unnest_longer_polars.html">unnest_longer_polars()</a></code> to unnest list-columns into rows, equivalent to <code><a href="https://tidyr.tidyverse.org/reference/unnest_longer.html" class="external-link">tidyr::unnest_longer()</a></code>. It supports the parameters <code>values_to</code>, <code>indices_to</code>, <code>keep_empty</code>, as well as the <code>{col}</code> templates for column naming. (<a href="https://github.com/etiennebacher/tidypolars/issues/212" class="external-link">#212</a>, <a href="https://github.com/etiennebacher/tidypolars/issues/281" class="external-link">#281</a>, <a href="https://github.com/Yousa-Mirage" class="external-link">@Yousa-Mirage</a>)</p></li>
 <li><p>New functions <code><a href="../reference/separate_longer.html">separate_longer_delim_polars()</a></code> and <code><a href="../reference/separate_longer.html">separate_longer_position_polars()</a></code> to split string columns into rows by delimiter or fixed width, equivalent to <code><a href="https://tidyr.tidyverse.org/reference/separate_longer_delim.html" class="external-link">tidyr::separate_longer_delim()</a></code> and <code><a href="https://tidyr.tidyverse.org/reference/separate_longer_delim.html" class="external-link">tidyr::separate_longer_position()</a></code>. (<a href="https://github.com/etiennebacher/tidypolars/issues/57" class="external-link">#57</a>, <a href="https://github.com/etiennebacher/tidypolars/issues/285" class="external-link">#285</a>, <a href="https://github.com/Yousa-Mirage" class="external-link">@Yousa-Mirage</a>)</p></li>
 <li><p>New argument <code>.by</code> in <code><a href="https://tidyr.tidyverse.org/reference/fill.html" class="external-link">fill()</a></code> (this was introduced in <code>tidyr</code> 1.3.2). (<a href="https://github.com/etiennebacher/tidypolars/issues/283" class="external-link">#283</a>)</p></li>
@@ -53,14 +112,29 @@
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">.tp</span><span class="op">$</span><span class="fu">str_extract_stringr</span><span class="op">(</span><span class="va">x</span>, <span class="st">"\\d+"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>This can be useful to benefit from <code>polars</code> speed while using the interface of <code>tidyverse</code> functions, without adding additional <code>tidyverse</code> dependencies. This may be useful to avoid installing extra dependencies, but it is not the recommended usage because it makes it harder to convert <code>tidypolars</code> code to run with other <code>tidyverse</code>-based backends. More information with <code><a href="../reference/dot-tp.html">?.tp</a></code> (<a href="https://github.com/etiennebacher/tidypolars/issues/293" class="external-link">#293</a>).</p>
 </li>
+<li><p>New argument <code>mkdir</code> in <code><a href="../reference/write_parquet_polars.html">write_parquet_polars()</a></code> (this already existed in <code><a href="../reference/sink_parquet.html">sink_parquet()</a></code>). (<a href="https://github.com/etiennebacher/tidypolars/issues/298" class="external-link">#298</a>)</p></li>
+<li>
+<p>New (experimental) function <code><a href="../reference/partitioned_output.html">partition_by()</a></code> to write partitioned output in <code>sink_*()</code> and <code>write_*_polars()</code>. The following functions are deprecated and will be removed in a future release (<a href="https://github.com/etiennebacher/tidypolars/issues/299" class="external-link">#299</a>):</p>
+<ul><li>
+<code><a href="../reference/partitioned_output.html">partition_by_key()</a></code> can be replaced with <code>partition_by(key =)</code>
+</li>
+<li>
+<code><a href="../reference/partitioned_output.html">partition_by_max_size()</a></code> can be replaced with <code>partition_by(max_rows_per_file =)</code>
+</li>
+</ul></li>
 </ul></div>
 <div class="section level3">
-<h3 id="changes-development-version">Changes<a class="anchor" aria-label="anchor" href="#changes-development-version"></a></h3>
+<h3 id="changes-0-16-0">Changes<a class="anchor" aria-label="anchor" href="#changes-0-16-0"></a></h3>
 <ul><li>
 <code><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">collect()</a></code> now returns a <code>tibble</code> instead of a <code>data.frame</code>, for consistency with other <code><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">collect()</a></code> methods (<a href="https://github.com/etiennebacher/tidypolars/issues/273" class="external-link">#273</a>).</li>
 </ul></div>
 <div class="section level3">
-<h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
+<h3 id="bug-fixes-0-16-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-16-0"></a></h3>
+<ul><li>
+<code><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange()</a></code> now works with literal values, such as <code>arrange(x, 1:2)</code> (<a href="https://github.com/etiennebacher/tidypolars/issues/296" class="external-link">#296</a>).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-0-16-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-16-0"></a></h3>
 <ul><li>Removed the “FAQ” vignette, which was outdated and wasn’t particularly helpful.</li>
 </ul></div>
 </div>
@@ -205,7 +279,7 @@
 <li><p><code><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count()</a></code> and <code><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">add_count()</a></code> now warn or error when argument <code>wt</code> is used since it is not supported. The behavior depends on the global option <code>tidypolars_unknown_args</code> (<a href="https://github.com/etiennebacher/tidypolars/issues/204" class="external-link">#204</a>).</p></li>
 <li><p><code>tidypolars</code> has experimental support for fallback to R when a function is not internally translated to polars syntax. The default behavior is still to error, but the user can now set <code>options(tidypolars_fallback_to_r = TRUE)</code> to handle those unknown functions. See <code><a href="../reference/tidypolars_options.html">?tidypolars_options</a></code> for details on the drawbacks of this approach (<a href="https://github.com/etiennebacher/tidypolars/issues/205" class="external-link">#205</a>).</p></li>
 <li><p>Large performance improvement when using selection helpers (such as <code><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">contains()</a></code>) on data with many columns (<a href="https://github.com/etiennebacher/tidypolars/issues/211" class="external-link">#211</a>).</p></li>
-<li><p><code>tidypolars</code> now exports rules to be used with <code>flir</code> for detecting deprecated functions <code><a href="../reference/describe_plan.html">describe_plan()</a></code> and <code><a href="../reference/describe_plan.html">describe_optimized_plan()</a></code>. Those can be used in your project by following <a href="https://flir.etiennebacher.com/articles/sharing_rules#for-users" class="external-link">this article</a>. Note that this requires <code>flir</code> 0.5.0.9000 or higher (<a href="https://github.com/etiennebacher/tidypolars/issues/214" class="external-link">#214</a>).</p></li>
+<li><p><code>tidypolars</code> now exports rules to be used with <code>flir</code> for detecting deprecated functions <code>describe_plan()</code> and <code>describe_optimized_plan()</code>. Those can be used in your project by following <a href="https://flir.etiennebacher.com/articles/sharing_rules#for-users" class="external-link">this article</a>. Note that this requires <code>flir</code> 0.5.0.9000 or higher (<a href="https://github.com/etiennebacher/tidypolars/issues/214" class="external-link">#214</a>).</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-14-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-14-0"></a></h3>
@@ -270,7 +344,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-11-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-11-0"></a></h3>
-<ul><li><p>Using an external object in <code><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when()</a></code>, <code><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse()</a></code> and <code><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse()</a></code> now works.</p></li>
+<ul><li><p>Using an external object in <code><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when()</a></code>, <code><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse()</a></code> and <code><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse()</a></code> now works.</p></li>
 <li><p><code><a href="https://stringr.tidyverse.org/reference/str_sub.html" class="external-link">str_sub()</a></code> doesn’t error anymore when <code>start</code> is positive and <code>end</code> is negative.</p></li>
 <li><p><code>read_*_polars()</code> functions used to return a standard <code>data.frame</code> by mistake. They now return a Polars DataFrame.</p></li>
 <li><p>Using <code>[</code> for subsetting in expressions now works. Thanks <a href="https://github.com/ginolhac" class="external-link">@ginolhac</a> for the report (<a href="https://github.com/etiennebacher/tidypolars/issues/141" class="external-link">#141</a>).</p></li>
@@ -289,8 +363,8 @@
 <p><code>tidypolars</code> requires <code>polars</code> &gt;= 0.19.1.</p>
 <div class="section level3">
 <h3 id="breaking-changes-and-deprecations-0-10-0">Breaking changes and deprecations<a class="anchor" aria-label="anchor" href="#breaking-changes-and-deprecations-0-10-0"></a></h3>
-<ul><li><p><code><a href="../reference/describe.html">describe()</a></code> is deprecated as of tidypolars 0.10.0 and will be removed in a future update. Use <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> with the same arguments instead (<a href="https://github.com/etiennebacher/tidypolars/issues/127" class="external-link">#127</a>).</p></li>
-<li><p><code><a href="../reference/describe_plan.html">describe_plan()</a></code> and <code><a href="../reference/describe_plan.html">describe_optimized_plan()</a></code> are deprecated as of tidypolars 0.10.0 and will be removed in a future update. Use <code><a href="https://dplyr.tidyverse.org/reference/explain.html" class="external-link">explain()</a></code> with <code>optimized = TRUE/FALSE</code> instead (<a href="https://github.com/etiennebacher/tidypolars/issues/128" class="external-link">#128</a>).</p></li>
+<ul><li><p><code>describe()</code> is deprecated as of tidypolars 0.10.0 and will be removed in a future update. Use <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> with the same arguments instead (<a href="https://github.com/etiennebacher/tidypolars/issues/127" class="external-link">#127</a>).</p></li>
+<li><p><code>describe_plan()</code> and <code>describe_optimized_plan()</code> are deprecated as of tidypolars 0.10.0 and will be removed in a future update. Use <code><a href="https://dplyr.tidyverse.org/reference/explain.html" class="external-link">explain()</a></code> with <code>optimized = TRUE/FALSE</code> instead (<a href="https://github.com/etiennebacher/tidypolars/issues/128" class="external-link">#128</a>).</p></li>
 <li><p>In <code><a href="../reference/sink_parquet.html">sink_parquet()</a></code> and <code><a href="../reference/sink_csv.html">sink_csv()</a></code>, all arguments except for <code>.data</code> and <code>path</code> must be named (<a href="https://github.com/etiennebacher/tidypolars/issues/136" class="external-link">#136</a>).</p></li>
 </ul></div>
 <div class="section level3">
@@ -557,7 +631,7 @@
 <div class="section level3">
 <h3 id="new-features-0-2-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-2-0"></a></h3>
 <ul><li><p>Rename <code>pl_fetch()</code> to <code><a href="../reference/fetch.html">fetch()</a></code>.</p></li>
-<li><p>New functions supported: <code><a href="../reference/describe.html">describe()</a></code>, <code><a href="../reference/sink_csv.html">sink_csv()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_sample()</a></code>.</p></li>
+<li><p>New functions supported: <code>describe()</code>, <code><a href="../reference/sink_csv.html">sink_csv()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_sample()</a></code>.</p></li>
 <li><p>New argument <code>fill</code> in <code>pl_complete()</code>.</p></li>
 <li><p>Support <code><a href="https://stringr.tidyverse.org/reference/case.html" class="external-link">stringr::str_to_title()</a></code> and <code><a href="https://rdrr.io/r/tools/toTitleCase.html" class="external-link">tools::toTitleCase()</a></code>.</p></li>
 <li><p>Support <code><a href="https://stringr.tidyverse.org/reference/modifiers.html" class="external-link">stringr::fixed()</a></code> to use literal strings.</p></li>

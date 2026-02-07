@@ -76,7 +76,9 @@ LazyFrames (`sink_` functions).
   : Show the optimized and non-optimized query plans
 - [`filter(`*`<polars_data_frame>`*`)`](https://tidypolars.etiennebacher.com/reference/filter.polars_data_frame.md)
   [`filter(`*`<polars_lazy_frame>`*`)`](https://tidypolars.etiennebacher.com/reference/filter.polars_data_frame.md)
-  : Keep rows that match a condition
+  [`filter_out(`*`<polars_data_frame>`*`)`](https://tidypolars.etiennebacher.com/reference/filter.polars_data_frame.md)
+  [`filter_out(`*`<polars_lazy_frame>`*`)`](https://tidypolars.etiennebacher.com/reference/filter.polars_data_frame.md)
+  : Keep or drop rows that match a condition
 - [`left_join(`*`<polars_data_frame>`*`)`](https://tidypolars.etiennebacher.com/reference/mutating-joins.md)
   [`right_join(`*`<polars_data_frame>`*`)`](https://tidypolars.etiennebacher.com/reference/mutating-joins.md)
   [`full_join(`*`<polars_data_frame>`*`)`](https://tidypolars.etiennebacher.com/reference/mutating-joins.md)
@@ -148,7 +150,8 @@ LazyFrames (`sink_` functions).
   [`pivot_longer(`*`<polars_lazy_frame>`*`)`](https://tidypolars.etiennebacher.com/reference/pivot_longer.polars_data_frame.md)
   : Pivot a Data/LazyFrame from wide to long
 - [`pivot_wider(`*`<polars_data_frame>`*`)`](https://tidypolars.etiennebacher.com/reference/pivot_wider.polars_data_frame.md)
-  : Pivot a DataFrame from long to wide
+  [`pivot_wider(`*`<polars_lazy_frame>`*`)`](https://tidypolars.etiennebacher.com/reference/pivot_wider.polars_data_frame.md)
+  : Pivot a Data/LazyFrame from long to wide
 - [`replace_na(`*`<polars_data_frame>`*`)`](https://tidypolars.etiennebacher.com/reference/replace_na.polars_data_frame.md)
   [`replace_na(`*`<polars_lazy_frame>`*`)`](https://tidypolars.etiennebacher.com/reference/replace_na.polars_data_frame.md)
   : Replace NAs with specified values
@@ -184,24 +187,18 @@ Other functions or S3 methods.
 
 Other Polars-specific functions (most are deprecated).
 
-- [`describe()`](https://tidypolars.etiennebacher.com/reference/describe.md)
-  **\[deprecated\]** : Summary statistics for a Polars DataFrame
-
-- [`describe_plan()`](https://tidypolars.etiennebacher.com/reference/describe_plan.md)
-  [`describe_optimized_plan()`](https://tidypolars.etiennebacher.com/reference/describe_plan.md)
-  **\[deprecated\]** : Show the optimized and non-optimized query plans
-
 - [`fetch()`](https://tidypolars.etiennebacher.com/reference/fetch.md)
   **\[deprecated\]** :
 
   Fetch `n` rows of a LazyFrame
 
 - [`make_unique_id()`](https://tidypolars.etiennebacher.com/reference/make_unique_id.md)
-  : Create a column with unique id per row values
+  **\[deprecated\]** : Create a column with unique id per row values
 
-- [`partition_by_key()`](https://tidypolars.etiennebacher.com/reference/partitioned_output.md)
+- [`partition_by()`](https://tidypolars.etiennebacher.com/reference/partitioned_output.md)
+  [`partition_by_key()`](https://tidypolars.etiennebacher.com/reference/partitioned_output.md)
   [`partition_by_max_size()`](https://tidypolars.etiennebacher.com/reference/partitioned_output.md)
-  **\[experimental\]** : Helper functions to export a LazyFrame as a
+  **\[experimental\]** : Helper functions to export data as a
   partitioned output
 
 ## Advanced

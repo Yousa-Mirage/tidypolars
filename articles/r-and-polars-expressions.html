@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tidypolars</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.16.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -707,18 +707,60 @@ this errors.</td>
 </tr>
 <tr class="even">
 <td align="left"><code>dplyr</code></td>
+<td align="left"><code>near</code></td>
+<td align="left">tidypolars errors if <code>x</code> and <code>y</code>
+have different lengths, dplyr doesn’t.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>dplyr</code></td>
 <td align="left"><code>nth</code></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"><code>dplyr</code></td>
+<td align="left"><code>n_distinct</code></td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
 <td align="left"><code>dplyr</code></td>
-<td align="left"><code>n_distinct</code></td>
-<td align="left"></td>
+<td align="left"><code>recode_values</code></td>
+<td align="left">The <code>dplyr</code> functions will error if the type
+of the replacement doesn’t match the type of the column (for instance
+trying to replace a character with an integer). This works in
+<code>tidypolars</code>.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>dplyr</code></td>
+<td align="left"><code>replace_values</code></td>
+<td align="left">The <code>dplyr</code> functions will error if the type
+of the replacement doesn’t match the type of the column (for instance
+trying to replace a character with an integer). This works in
+<code>tidypolars</code>.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>dplyr</code></td>
+<td align="left"><code>replace_when</code></td>
+<td align="left">The <code>dplyr</code> function will error if the type
+of the replacement doesn’t match the type of the column (for instance
+trying to replace a character with an integer). This sometimes works in
+<code>tidypolars</code>.</td>
 </tr>
 <tr class="even">
 <td align="left"><code>dplyr</code></td>
 <td align="left"><code>row_number</code></td>
 <td align="left">Doesn’t work when <code>x</code> is missing.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>dplyr</code></td>
+<td align="left"><code>when_all</code></td>
+<td align="left">Arguments <code>na_rm</code> and <code>size</code> not
+supported.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>dplyr</code></td>
+<td align="left"><code>when_any</code></td>
+<td align="left">Arguments <code>na_rm</code> and <code>size</code> not
+supported.</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>lubridate</code></td>
