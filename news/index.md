@@ -1,6 +1,8 @@
 # Changelog
 
-## tidypolars (development version)
+## tidypolars 0.17.0
+
+`tidypolars` requires `polars` \>= 1.9.0 and `dplyr` \>= 1.2.0.
 
 ### Breaking changes and deprecations
 
@@ -19,6 +21,14 @@
   results across different versions. This function doesn’t have a
   replacement in `tidypolars`
   ([\#304](https://github.com/etiennebacher/tidypolars/issues/304)).
+
+- In
+  [`partition_by_key()`](https://tidypolars.etiennebacher.com/reference/partitioned_output.md)
+  and
+  [`partition_by_max_size()`](https://tidypolars.etiennebacher.com/reference/partitioned_output.md)
+  (both already deprecated in 0.16.0), the argument
+  `per_partition_sort_by` has been removed
+  ([\#322](https://github.com/etiennebacher/tidypolars/issues/322)).
 
 ### New features
 
@@ -44,6 +54,10 @@
     ([\#306](https://github.com/etiennebacher/tidypolars/issues/306))
   - [`when_all()`](https://dplyr.tidyverse.org/reference/when-any-all.html)
     ([\#306](https://github.com/etiennebacher/tidypolars/issues/306))
+
+- [`separate()`](https://tidyr.tidyverse.org/reference/separate.html)
+  now supports regex in the `sep` argument
+  ([\#320](https://github.com/etiennebacher/tidypolars/issues/320)).
 
 ### Other changes
 
