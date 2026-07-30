@@ -7,6 +7,14 @@
 * Added support for `show_query()` to print the pure `polars` code that is equivalent to the
   query (#369).
 
+## Bug fixes
+
+* `uncount()` is largely rewritten: it no longer requires a column named `x`,
+  rows with weight 0 are dropped, `.id` restarts from 1 for each original row
+  and is an integer column, the weights column is only removed when it is a
+  bare column name, `.remove` and `.id` are checked, and grouping is
+  preserved.
+
 
 # tidypolars 0.19.0
 
